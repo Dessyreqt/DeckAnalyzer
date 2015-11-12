@@ -23,12 +23,12 @@ namespace DeckAnalyzer.Mtg
 
             var deckNum = -1;
 
-            foreach (var deckUrl in deckUrls.Distinct<string>())
+            foreach (var deckUrl in deckUrls.Distinct())
             {
                 var deck = GetDeck(deckUrl);
                 string fileName;
 
-                deck = Regex.Replace(deck, @"((\s|\w)+)(\d+) ", "$1\r\n$2 "); 
+                deck = CleanDeck(deck);
 
                 do
                 {

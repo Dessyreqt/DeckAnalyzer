@@ -11,11 +11,15 @@ namespace DeckAnalyzer.Common
         public static IDeckScraper GetDeckScraper(string url)
         {
             if (url.Contains("mtgdecks.net"))
+            {
                 return new MtgDecksNetScraper();
-            else if (url.Contains("tcdecks.net"))
+            }
+            if (url.Contains("tcdecks.net"))
+            {
                 return new TcDecksScraper();
-            else
-                throw new ArgumentException(string.Format("Could not generate scraper for url: {0}", url));
+            }
+
+            throw new ArgumentException(string.Format("Could not generate scraper for url: {0}", url));
         }
     }
 }

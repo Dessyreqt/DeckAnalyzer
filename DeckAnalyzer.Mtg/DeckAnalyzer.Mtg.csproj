@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MtgDeck.cs" />
     <Compile Include="MtgDeckFileWriter.cs" />
     <Compile Include="MtgDecksNetScraper.cs" />
+    <Compile Include="MtgoDeckParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TcDecksScraper.cs" />
   </ItemGroup>
