@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="MtgDeck.cs" />
     <Compile Include="MtgDeckFileWriter.cs" />
+    <Compile Include="MtgDeckRules.cs" />
     <Compile Include="MtgDecksNetScraper.cs" />
     <Compile Include="MtgoDeckParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

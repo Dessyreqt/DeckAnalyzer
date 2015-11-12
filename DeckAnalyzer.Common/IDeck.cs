@@ -8,11 +8,8 @@ namespace DeckAnalyzer.Common
 {
     public interface IDeck
     {
-        List<string> DeckContents { get; set; }
-        List<string> Errors { get; set; } 
-
         bool IsValid();
         void AddCard(string card);
-        void RemoveCard(string card);
+        List<string> GetContents();
     }
 }
