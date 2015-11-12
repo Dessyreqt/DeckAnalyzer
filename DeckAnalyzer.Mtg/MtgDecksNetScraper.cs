@@ -20,11 +20,11 @@ namespace DeckAnalyzer.Mtg
 
             var urlPattern = new Regex(@"/decks/view/\d+");
             var matches = urlPattern.Matches(response);
-            var deckUrls = (from Match match in matches select String.Format("http://mtgdecks.net{0}/txt", match.Value)).ToList();
+            var deckUrls = (from Match match in matches select string.Format("http://mtgdecks.net{0}/txt", match.Value)).ToList();
 
             var deckNum = -1;
 
-            foreach (var deckUrl in deckUrls)
+            foreach (var deckUrl in deckUrls.Distinct<string>())
             {
                 var deck = GetDeck(deckUrl);
                 string fileName;
@@ -32,7 +32,7 @@ namespace DeckAnalyzer.Mtg
                 do
                 {
                     deckNum++;
-                    fileName = String.Format("{0}{1}.txt", outputLocation, deckNum.ToString("000"));
+                    fileName = string.Format("{0}{1}.txt", outputLocation, deckNum.ToString("000"));
                 } while (File.Exists(fileName));
 
                 var writer = new MtgDeckFileWriter();
