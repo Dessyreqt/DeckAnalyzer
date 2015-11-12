@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeckScraperFactory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +78,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeckAnalyzer.Common\DeckAnalyzer.Common.csproj">
+      <Project>{A99BE8F3-6C25-48FF-83E3-FC46077AC451}</Project>
+      <Name>DeckAnalyzer.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeckAnalyzer.Mtg\DeckAnalyzer.Mtg.csproj">
+      <Project>{DA079FBD-AF04-4867-8B0A-2AB076DBFF3E}</Project>
+      <Name>DeckAnalyzer.Mtg</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

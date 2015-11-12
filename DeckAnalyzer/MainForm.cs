@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Net;
 using System.Windows.Forms;
+using DeckAnalyzer.Common;
 using DeckAnalyzer.Properties;
 
 namespace DeckAnalyzer
@@ -54,39 +55,19 @@ namespace DeckAnalyzer
             Settings.Default.EventAddress = eventAddressText.Text;
             Settings.Default.Save();
 
-            var response = GetResponse(eventAddressText.Text);
+            outputText.Text += String.Format("Grabbing decks from {0}{1}", eventAddressText.Text, Environment.NewLine);
+            Application.DoEvents();
 
-            if (string.IsNullOrWhiteSpace(response))
-                return;
-
-            var urlPattern = new Regex(@"/decks/view/\d+");
-            var matches = urlPattern.Matches(response);
-            var deckUrls = new List<string>();
-
-            foreach (Match match in matches)
+            try
             {
-                var deckUrl = string.Format("http://mtgdecks.net{0}/txt", match.Value);
-
-                deckUrls.Add(deckUrl);
-                outputText.Text += string.Format("{0}{1}", deckUrl, Environment.NewLine);
+                IDeckScraper scraper = DeckScraperFactory.GetDeckScraper(eventAddressText.Text);
+                scraper.GetDecks(eventAddressText.Text, outputFolderText.Text);
             }
-
-            var deckNum = 0;
-
-            foreach (var deckUrl in deckUrls)
+            catch (ArgumentException ex)
             {
-                var deckList = GetResponse(deckUrl);
-
-                while (File.Exists(string.Format("{0}{1}.txt", outputFolderText.Text, deckNum.ToString("000"))))
-                {
-                    deckNum++;
-                }
-
-                using (var writer = new StreamWriter(string.Format("{0}{1}.txt", outputFolderText.Text, deckNum.ToString("000"))))
-                {
-                    writer.Write(deckList);
-                }
+                outputText.Text += String.Format("{0}{1}", ex.Message, Environment.NewLine);
             }
+            outputText.Text += String.Format("Finished grabbing decks.");
         }
 
         private void FixOutputFolder()
@@ -97,14 +78,6 @@ namespace DeckAnalyzer
                 Settings.Default.OutputFolder = outputFolderText.Text;
                 Settings.Default.Save();
             }
-        }
-
-        private static string GetResponse(string address)
-        {
-            var httpRequest = WebRequest.Create(address);
-            var response = httpRequest.GetResponse();
-            var reader = new StreamReader(response.GetResponseStream());
-            return reader.ReadToEnd();
         }
 
         private void buildDeckButton_Click(object sender, EventArgs e)
