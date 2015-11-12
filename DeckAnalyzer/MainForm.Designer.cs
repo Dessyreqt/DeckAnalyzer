@@ -1,4 +1,4 @@
-﻿namespace MtgDecksNetDownloader
+﻿namespace DeckAnalyzer
 {
     partial class MainForm
     {

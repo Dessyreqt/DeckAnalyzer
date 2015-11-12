@@ -11,9 +11,9 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Net;
 using System.Windows.Forms;
-using MtgDecksNetDownloader.Properties;
+using DeckAnalyzer.Properties;
 
-namespace MtgDecksNetDownloader
+namespace DeckAnalyzer
 {
     public partial class MainForm : Form
     {
