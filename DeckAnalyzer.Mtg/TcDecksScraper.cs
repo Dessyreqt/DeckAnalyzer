@@ -38,6 +38,9 @@ namespace DeckAnalyzer.Mtg
 
                 var writer = new MtgDeckFileWriter();
                 writer.WriteDeck(deck, fileName);
+
+                var parser = new MtgoDeckParser();
+                var parsedDeck = parser.ParseDeck(deck);
             }
         }
 

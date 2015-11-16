@@ -15,7 +15,7 @@ namespace DeckAnalyzer.Mtg
 
         public MtgDeck()
         {
-            MaindeckContents = new List<string>();
+            DeckContents = new List<string>();
             Errors = new List<string>();
             SideboardContents = new List<string>();
         }
@@ -24,21 +24,39 @@ namespace DeckAnalyzer.Mtg
         {
             Errors.Clear();
 
-            if (DeckContents.Count < 60)
+            if (DeckContents.Count < MtgDeckRules.MinDeckSize)
             {
-                Errors.Add("Deck must have at least 60 cards.");
+                Errors.Add(string.Format("Deck must have at least {0} cards.", MtgDeckRules.MinDeckSize));
             }
 
-            if (SideboardContents.Count > 15)
+            if (SideboardContents.Count > MtgDeckRules.MaxSideboardSize)
             {
-                Errors.Add("Sideboard must have at most 15 cards.");
+                Errors.Add(string.Format("Sideboard must have at most {0} cards.", MtgDeckRules.MaxSideboardSize));
             }
 
             foreach (var card in DeckContents)
             {
-                if (DeckContents.Count((x) => x == card) + SideboardContents.Count((x) => x == card) > 4)
+                if (MtgDeckRules.IgnoreMaxCards.Contains(card))
                 {
-                    Errors.Add(string.Format("Deck and sideboard cannot contain more than 4 cards named \"{0}\"", card));
+                    continue;
+                }
+
+                if (DeckContents.Count(x => x == card) + SideboardContents.Count(x => x == card) > MtgDeckRules.MaxPerCard)
+                {
+                    Errors.Add(string.Format("Deck and sideboard cannot contain more than {0} cards named \"{1}\"", MtgDeckRules.MaxPerCard, card));
+                }
+            }
+
+            foreach (var card in SideboardContents)
+            {
+                if (MtgDeckRules.IgnoreMaxCards.Contains(card))
+                {
+                    continue;
+                }
+
+                if (DeckContents.Count(x => x == card) + SideboardContents.Count(x => x == card) > MtgDeckRules.MaxPerCard)
+                {
+                    Errors.Add(string.Format("Deck and sideboard cannot contain more than {0} cards named \"{1}\"", MtgDeckRules.MaxPerCard, card));
                 }
             }
 
@@ -57,7 +75,24 @@ namespace DeckAnalyzer.Mtg
 
         public List<string> GetContents()
         {
+            DeckContents.Sort();
+            SideboardContents.Sort();
+
             var retVal = new List<string>();
+
+            for (int i = 0; i < DeckContents.Count; i++)
+            {
+                var card = DeckContents[i];
+                retVal.Add(string.Format("{0} #{1}", card, DeckContents.GetRange(0, i).Count(x => x == card) + 1));
+            }
+
+            for (int i = 0; i < SideboardContents.Count; i++)
+            {
+                var card = SideboardContents[i];
+                retVal.Add(string.Format("SB: {0} #{1}", card, SideboardContents.GetRange(0, i).Count(x => x == card) + 1));
+            }
+
+            return retVal;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace DeckAnalyzer.Common
         public static string CleanDeck(string deck)
         {
             deck = Regex.Replace(deck, @"\s+(\d+) ", "$1 ");
-            deck = Regex.Replace(deck, @"(\w+)(\d+) ", "$1\r\n$2 ");
+            deck = Regex.Replace(deck, @"([A-Za-z]+)(\d+) ", "$1\r\n$2 ");
             return deck;
         }
     }

@@ -7,5 +7,6 @@ namespace DeckAnalyzer.Common
 {
     public interface IDeckParser
     {
+        IDeck ParseDeck(string deck);
     }
 }
