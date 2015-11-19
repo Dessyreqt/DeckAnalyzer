@@ -94,5 +94,45 @@ namespace DeckAnalyzer.Mtg
 
             return retVal;
         }
+
+        public string GetFormattedList()
+        {
+            DeckContents.Sort();
+            SideboardContents.Sort();
+
+            var retVal = new StringBuilder();
+
+            WriteContents(retVal, DeckContents);
+            retVal.AppendLine();
+            retVal.AppendLine("Sideboard");
+            WriteContents(retVal, SideboardContents);
+
+            return retVal.ToString();
+        }
+
+        private void WriteContents(StringBuilder retVal, List<string> contents)
+        {
+            var count = 1;
+
+            for (int i = 0; i < contents.Count(); i++)
+            {
+                if (i + 1 < contents.Count)
+                {
+                    if (contents[i] == contents[i + 1])
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        retVal.AppendLine(string.Format("{0} {1}", count, contents[i]));
+                        count = 1;
+                    }
+                }
+                else
+                {
+                    retVal.AppendLine(string.Format("{0} {1}", count, contents[i]));
+                }
+            }
+        }
     }
 }

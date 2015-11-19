@@ -40,8 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDeckDatabaseWriter.cs" />
     <Compile Include="IDeckFileWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeckAnalyzer.Common\DeckAnalyzer.Common.csproj">
+      <Project>{A99BE8F3-6C25-48FF-83E3-FC46077AC451}</Project>
+      <Name>DeckAnalyzer.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

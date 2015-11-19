@@ -11,5 +11,6 @@ namespace DeckAnalyzer.Common
         bool IsValid();
         void AddCard(string card);
         List<string> GetContents();
+        string GetFormattedList();
     }
 }

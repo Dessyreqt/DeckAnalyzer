@@ -37,8 +37,13 @@ namespace DeckAnalyzer.Mtg
                     fileName = string.Format("{0}{1}.txt", outputLocation, deckNum.ToString("000"));
                 } while (File.Exists(fileName));
 
-                var writer = new MtgDeckFileWriter();
-                writer.WriteDeck(deck, fileName);
+                var parser = new MtgoDeckParser();
+                var parsedDeck = parser.ParseDeck(deck);
+                if (parsedDeck.IsValid())
+                {
+                    var writer = new MtgDeckFileWriter();
+                    writer.WriteDeck(parsedDeck, fileName);
+                }
             }
         }
 
