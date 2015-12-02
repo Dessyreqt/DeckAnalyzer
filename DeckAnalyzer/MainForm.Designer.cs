@@ -43,7 +43,11 @@
             this.seedDeckText = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.buildDeckButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TextFileOption = new System.Windows.Forms.RadioButton();
+            this.DatabaseOption = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.order)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -100,15 +104,15 @@
             // 
             // outputText
             // 
-            this.outputText.Location = new System.Drawing.Point(16, 96);
+            this.outputText.Location = new System.Drawing.Point(16, 144);
             this.outputText.Multiline = true;
             this.outputText.Name = "outputText";
             this.outputText.ReadOnly = true;
             this.outputText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.outputText.Size = new System.Drawing.Size(349, 269);
+            this.outputText.Size = new System.Drawing.Size(349, 221);
             this.outputText.TabIndex = 6;
             // 
-            // outputDeckTextBox
+            // outputDeckText
             // 
             this.outputDeckText.Location = new System.Drawing.Point(371, 214);
             this.outputDeckText.Multiline = true;
@@ -161,9 +165,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(450, 13);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(164, 13);
+            this.label4.Size = new System.Drawing.Size(195, 13);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Output File (.txt will be appended)";
+            this.label4.Text = "Output File (extension will be appended)";
             // 
             // seedDeckText
             // 
@@ -193,11 +197,46 @@
             this.buildDeckButton.UseVisualStyleBackColor = true;
             this.buildDeckButton.Click += new System.EventHandler(this.buildDeckButton_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.DatabaseOption);
+            this.groupBox1.Controls.Add(this.TextFileOption);
+            this.groupBox1.Location = new System.Drawing.Point(16, 96);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(349, 42);
+            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Results to:";
+            // 
+            // TextFileOption
+            // 
+            this.TextFileOption.AutoSize = true;
+            this.TextFileOption.Checked = true;
+            this.TextFileOption.Location = new System.Drawing.Point(6, 19);
+            this.TextFileOption.Name = "TextFileOption";
+            this.TextFileOption.Size = new System.Drawing.Size(70, 17);
+            this.TextFileOption.TabIndex = 0;
+            this.TextFileOption.TabStop = true;
+            this.TextFileOption.Text = "Text Files";
+            this.TextFileOption.UseVisualStyleBackColor = true;
+            // 
+            // DatabaseOption
+            // 
+            this.DatabaseOption.AutoSize = true;
+            this.DatabaseOption.Location = new System.Drawing.Point(82, 19);
+            this.DatabaseOption.Name = "DatabaseOption";
+            this.DatabaseOption.Size = new System.Drawing.Size(71, 17);
+            this.DatabaseOption.TabIndex = 1;
+            this.DatabaseOption.TabStop = true;
+            this.DatabaseOption.Text = "Database";
+            this.DatabaseOption.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 377);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buildDeckButton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.seedDeckText);
@@ -216,6 +255,8 @@
             this.Name = "MainForm";
             this.Text = "MtgDecks.Net Downloader";
             ((System.ComponentModel.ISupportInitialize)(this.order)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,6 +279,9 @@
         private System.Windows.Forms.TextBox seedDeckText;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buildDeckButton;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton DatabaseOption;
+        private System.Windows.Forms.RadioButton TextFileOption;
     }
 }
 

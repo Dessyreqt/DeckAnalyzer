@@ -6,11 +6,11 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DeckAnalyzer.Common
+namespace DeckAnalyzer.Data
 {
     public abstract class DeckScraperBase : IDeckScraper
     {
-        public abstract void GetDecks(string url, string outputLocation);
+        public abstract void GetDecks(string url, IDeckWriter writer);
         public abstract string GetDeck(string url);
 
         public static string GetResponse(string address)

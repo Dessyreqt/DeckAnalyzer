@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DeckAnalyzer.Mtg;
+using DeckAnalyzer.Data;
 
-namespace DeckAnalyzer.Common
+namespace DeckAnalyzer
 {
     public class DeckScraperFactory
     {

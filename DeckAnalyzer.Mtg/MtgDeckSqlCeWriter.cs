@@ -11,7 +11,7 @@ using DeckAnalyzer.Data;
 
 namespace DeckAnalyzer.Mtg
 {
-    public class MtgDeckSqlCeWriter : IDeckDatabaseWriter
+    public class MtgDeckSqlCeWriter : IDeckWriter
     {
         public string ConnectionString { get; set; }
 

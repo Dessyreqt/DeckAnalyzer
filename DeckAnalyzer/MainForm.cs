@@ -12,6 +12,7 @@ using System.Web;
 using System.Net;
 using System.Windows.Forms;
 using DeckAnalyzer.Common;
+using DeckAnalyzer.Data;
 using DeckAnalyzer.Properties;
 
 namespace DeckAnalyzer
@@ -61,7 +62,8 @@ namespace DeckAnalyzer
             try
             {
                 IDeckScraper scraper = DeckScraperFactory.GetDeckScraper(eventAddressText.Text);
-                scraper.GetDecks(eventAddressText.Text, outputFolderText.Text);
+                IDeckWriter writer = DeckWriterFactory.GetDeckWriter(DeckWriterOutputType.TextFile, DeckWriterGameType.Mtg, ""); //TODO: fix
+                scraper.GetDecks(eventAddressText.Text, writer);
             }
             catch (ArgumentException ex)
             {

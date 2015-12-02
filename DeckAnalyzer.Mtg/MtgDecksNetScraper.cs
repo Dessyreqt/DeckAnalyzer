@@ -6,12 +6,13 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using DeckAnalyzer.Common;
+using DeckAnalyzer.Data;
 
 namespace DeckAnalyzer.Mtg
 {
     public class MtgDecksNetScraper : DeckScraperBase
     {
-        public override void GetDecks(string url, string outputLocation)
+        public override void GetDecks(string url, IDeckWriter writer)
         {
             var response = GetResponse(url);
 
@@ -22,27 +23,16 @@ namespace DeckAnalyzer.Mtg
             var matches = urlPattern.Matches(response);
             var deckUrls = (from Match match in matches select string.Format("http://mtgdecks.net{0}/txt", match.Value)).ToList();
 
-            var deckNum = -1;
-
             foreach (var deckUrl in deckUrls.Distinct())
             {
                 var deck = GetDeck(deckUrl);
-                string fileName;
-
                 deck = CleanDeck(deck);
-
-                do
-                {
-                    deckNum++;
-                    fileName = string.Format("{0}{1}.txt", outputLocation, deckNum.ToString("000"));
-                } while (File.Exists(fileName));
 
                 var parser = new MtgoDeckParser();
                 var parsedDeck = parser.ParseDeck(deck);
                 if (parsedDeck.IsValid())
                 {
-                    var writer = new MtgDeckFileWriter();
-                    writer.WriteDeck(parsedDeck, fileName);
+                    writer.WriteDeck(parsedDeck);
                 }
             }
         }

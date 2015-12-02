@@ -8,11 +8,22 @@ using DeckAnalyzer.Data;
 
 namespace DeckAnalyzer.Mtg
 {
-    public class MtgDeckFileWriter : IDeckFileWriter
+    public class MtgDeckFileWriter : IDeckWriter
     {
-        public void WriteDeck(IDeck deck, string outputLocation)
+        public string OutputFolder { get; set; }
+
+        public void WriteDeck(IDeck deck)
         {
-            using (var writer = new StreamWriter(outputLocation))
+            var deckNum = -1;
+            string fileName;
+
+            do
+            {
+                deckNum++;
+                fileName = string.Format("{0}{1}.txt", OutputFolder, deckNum.ToString("000"));
+            } while (File.Exists(fileName));
+
+            using (var writer = new StreamWriter(fileName))
             {
                 writer.Write(deck.GetFormattedList());
             }

@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDeckDatabaseWriter.cs" />
-    <Compile Include="IDeckFileWriter.cs" />
+    <Compile Include="DeckScraperBase.cs" />
+    <Compile Include="IDeckScraper.cs" />
+    <Compile Include="IDeckWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

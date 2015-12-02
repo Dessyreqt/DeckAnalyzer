@@ -6,8 +6,8 @@ using DeckAnalyzer.Common;
 
 namespace DeckAnalyzer.Data
 {
-    public interface IDeckFileWriter
+    public interface IDeckWriter
     {
-        void WriteDeck(IDeck deck, string outputLocation);
+        void WriteDeck(IDeck deck);
     }
 }

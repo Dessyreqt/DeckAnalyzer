@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeckScraperFactory.cs" />
+    <Compile Include="DeckWriterFactory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +89,10 @@
     <ProjectReference Include="..\DeckAnalyzer.Common\DeckAnalyzer.Common.csproj">
       <Project>{A99BE8F3-6C25-48FF-83E3-FC46077AC451}</Project>
       <Name>DeckAnalyzer.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeckAnalyzer.Data\DeckAnalyzer.Data.csproj">
+      <Project>{3A25BB6F-54CD-41FC-AA1E-56AF721BEE3C}</Project>
+      <Name>DeckAnalyzer.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeckAnalyzer.Mtg\DeckAnalyzer.Mtg.csproj">
       <Project>{DA079FBD-AF04-4867-8B0A-2AB076DBFF3E}</Project>
