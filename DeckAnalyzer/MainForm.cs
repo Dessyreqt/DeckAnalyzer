@@ -62,7 +62,11 @@ namespace DeckAnalyzer
             try
             {
                 IDeckScraper scraper = DeckScraperFactory.GetDeckScraper(eventAddressText.Text);
-                IDeckWriter writer = DeckWriterFactory.GetDeckWriter(DeckWriterOutputType.TextFile, DeckWriterGameType.Mtg, ""); //TODO: fix
+
+                var outputType = GetOutputType();
+                var gameType = GetGameType();
+
+                IDeckWriter writer = DeckWriterFactory.GetDeckWriter(outputType, gameType, GetOutputLocation(outputType));
                 scraper.GetDecks(eventAddressText.Text, writer);
             }
             catch (ArgumentException ex)
@@ -70,6 +74,41 @@ namespace DeckAnalyzer
                 outputText.Text += String.Format("{0}{1}", ex.Message, Environment.NewLine);
             }
             outputText.Text += String.Format("Finished grabbing decks.");
+        }
+
+        private string GetOutputLocation(DeckWriterOutputType outputType)
+        {
+            FixOutputFolder();
+
+            switch (outputType)
+            {
+                case DeckWriterOutputType.TextFile:
+                    return outputFolderText.Text;
+                case DeckWriterOutputType.Database:
+                    return string.Format("{0}{1}", outputFolderText);
+                default:
+                    throw new ArgumentException("outputType must be set.");
+            }
+        }
+
+        private DeckWriterOutputType GetOutputType()
+        {
+            if (TextFileOption.Checked)
+            {
+                return DeckWriterOutputType.TextFile;
+            }
+
+            if (DatabaseOption.Checked)
+            {
+                return DeckWriterOutputType.Database;
+            }
+
+            throw new InvalidOperationException("The output type must be specified.");
+        }
+
+        private DeckWriterGameType GetGameType()
+        {
+            return DeckWriterGameType.Mtg;
         }
 
         private void FixOutputFolder()

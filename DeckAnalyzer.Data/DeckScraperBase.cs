@@ -21,7 +21,7 @@ namespace DeckAnalyzer.Data
 
             if (responseStream == null)
             {
-                throw new Exception("Could not generate response stream.");
+                throw new WebException("Could not generate response stream.");
             }
 
             var reader = new StreamReader(responseStream);

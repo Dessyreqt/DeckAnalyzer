@@ -24,11 +24,21 @@ namespace DeckAnalyzer
         { 
             new [] // Output Type: File
             {
-                new Func<string, IDeckWriter>((output) => { return new MtgDeckFileWriter(); })
+                new Func<string, IDeckWriter>((output) => 
+                {
+                    var retVal = new MtgDeckFileWriter();
+                    retVal.OutputFolder = output;
+                    return retVal; 
+                })
             },
             new [] // Output Type: Database
             {
-                new Func<string, IDeckWriter>((output) => { return new MtgDeckSqlCeWriter(); })
+                new Func<string, IDeckWriter>((output) => 
+                { 
+                    var retVal = new MtgDeckSqlCeWriter();
+                    retVal.ConnectionString = string.Format("“DataSource=\"{0}\";", output);
+                    return retVal; 
+                })
             }
         };
 
