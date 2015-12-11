@@ -20,7 +20,7 @@ namespace DeckAnalyzer
                 return new TcDecksScraper();
             }
 
-            throw new ArgumentException(string.Format("Could not generate scraper for url: {0}", url));
+            throw new ArgumentException(string.Format("Could not generate scraper for url: {0}", url), "url");
         }
     }
 }

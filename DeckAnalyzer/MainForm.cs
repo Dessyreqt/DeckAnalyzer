@@ -32,6 +32,16 @@ namespace DeckAnalyzer
             order.Value = Settings.Default.Order;
             outputFileText.Text = Settings.Default.OutputDeck;
             seedDeckText.Text = Settings.Default.SeedDeck;
+
+            switch (Settings.Default.DeckWriterOutputType)
+            {
+                case DeckWriterOutputType.TextFile:
+                    TextFileOption.Checked = true;
+                    break;
+                case DeckWriterOutputType.Database:
+                    DatabaseOption.Checked = true;
+                    break;
+            }
         }
 
         private void browseButton_Click(object sender, EventArgs e)
@@ -54,6 +64,7 @@ namespace DeckAnalyzer
             outputText.Text = "";
 
             Settings.Default.EventAddress = eventAddressText.Text;
+            SetDeckWriterOutputType();
             Settings.Default.Save();
 
             outputText.Text += String.Format("Grabbing decks from {0}{1}", eventAddressText.Text, Environment.NewLine);
@@ -76,6 +87,18 @@ namespace DeckAnalyzer
             outputText.Text += String.Format("Finished grabbing decks.");
         }
 
+        private void SetDeckWriterOutputType()
+        {
+            if (TextFileOption.Checked)
+            {
+                Settings.Default.DeckWriterOutputType = DeckWriterOutputType.TextFile;
+            }
+            else if (DatabaseOption.Checked)
+            {
+                Settings.Default.DeckWriterOutputType = DeckWriterOutputType.Database;
+            }
+        }
+
         private string GetOutputLocation(DeckWriterOutputType outputType)
         {
             FixOutputFolder();
@@ -85,9 +108,9 @@ namespace DeckAnalyzer
                 case DeckWriterOutputType.TextFile:
                     return outputFolderText.Text;
                 case DeckWriterOutputType.Database:
-                    return string.Format("{0}{1}", outputFolderText);
+                    return string.Format("{0}{1}.sdf", outputFolderText.Text, outputFileText.Text);
                 default:
-                    throw new ArgumentException("outputType must be set.");
+                    throw new ArgumentException("Output type must be set.", "outputType");
             }
         }
 
@@ -124,77 +147,15 @@ namespace DeckAnalyzer
         private void buildDeckButton_Click(object sender, EventArgs e)
         {
             FixOutputFolder();
-            DeleteTempFile();
-
             Settings.Default.Order = (int)order.Value;
             Settings.Default.OutputDeck = outputFileText.Text;
             Settings.Default.SeedDeck = seedDeckText.Text;
+            SetDeckWriterOutputType();
             Settings.Default.Save();
 
-            if (!Directory.Exists(string.Format("{0}\\output", outputFolderText.Text)))
-            {
-                Directory.CreateDirectory(string.Format("{0}\\output", outputFolderText.Text));
-            }
-
-            if (string.IsNullOrWhiteSpace(outputFileText.Text))
-            {
-                MessageBox.Show("Need an output file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                return;
-            }
-
-            var args = new StringBuilder();
-
-            args.Append("-v");
-            args.AppendFormat(" -r {0}", order.Value);
-            args.AppendFormat(" -o output\\{0}.txt", outputFileText.Text);
-            
-            if (!string.IsNullOrWhiteSpace(seedDeckText.Text))
-            {
-                using (var writer = new StreamWriter(string.Format("{0}_.tmp", outputFolderText.Text)))
-                {
-                    writer.Write(seedDeckText.Text);
-                }
-
-                args.Append(" -i _.tmp");
-            }
-
-            foreach (var filename in Directory.EnumerateFiles(outputFolderText.Text, "*.txt", SearchOption.TopDirectoryOnly))
-            {
-                args.AppendFormat(" {0}", filename.Substring(filename.LastIndexOf('\\') + 1));
-            }
-
-
-            Process proc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "mtg-builder",
-                    Arguments = args.ToString(),
-                    //UseShellExecute = false,
-                    //RedirectStandardOutput = true,
-                    //CreateNoWindow = true,
-                    WorkingDirectory = outputFolderText.Text,
-                }
-            };
-
-            proc.Start();
-            outputDeckText.Text = "";
-
-            //while (!proc.StandardOutput.EndOfStream)
-            //{
-            //    string line = proc.StandardOutput.ReadLine();
-            //    outputDeckText.Text += line;
-            //    Application.DoEvents();
-            //}
-
-            DeleteTempFile();
+            IDeckAnalyzer deckAnalyzer = DeckAnalyzerFactory.GetDeckAnalyzer(GetOutputType(), outputFolderText.Text, outputFileText.Text, seedDeckText.Text);
+            deckAnalyzer.AnalyzeDecks((int)order.Value);
         }
 
-        private void DeleteTempFile()
-        {
-            var filename = string.Format("{0}_.txt", outputFolderText.Text);
-
-            File.Delete(filename);
-        }
     }
 }

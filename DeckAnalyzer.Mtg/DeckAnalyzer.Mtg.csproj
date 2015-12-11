@@ -33,14 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files (x86)\Microsoft SQL Server Compact Edition\v3.5\System.Data.SqlServerCe.Entity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MtgDeck.cs" />
+    <Compile Include="MtgDeckFileAnalyzer.cs" />
     <Compile Include="MtgDeckFileWriter.cs" />
     <Compile Include="MtgDeckRules.cs" />
     <Compile Include="MtgDecksNetScraper.cs" />
+    <Compile Include="MtgDeckSqlCeAnalyzer.cs" />
     <Compile Include="MtgDeckSqlCeWriter.cs" />
     <Compile Include="MtgoDeckParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

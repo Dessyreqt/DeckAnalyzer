@@ -7,36 +7,23 @@ using DeckAnalyzer.Mtg;
 
 namespace DeckAnalyzer
 {
-    public enum DeckWriterGameType
-    {
-        Mtg = 0,
-    }
-
-    public enum DeckWriterOutputType
-    {
-        TextFile = 0,
-        Database = 1,
-    }
-
     public class DeckWriterFactory
     {
-        private static Func<string, IDeckWriter>[][] outputObjects = new[] 
+        private static readonly Func<string, IDeckWriter>[][] outputObjects = new[] 
         { 
             new [] // Output Type: File
             {
-                new Func<string, IDeckWriter>((output) => 
+                new Func<string, IDeckWriter>(output => 
                 {
-                    var retVal = new MtgDeckFileWriter();
-                    retVal.OutputFolder = output;
+                    var retVal = new MtgDeckFileWriter { OutputFolder = output };
                     return retVal; 
                 })
             },
             new [] // Output Type: Database
             {
-                new Func<string, IDeckWriter>((output) => 
+                new Func<string, IDeckWriter>(output => 
                 { 
-                    var retVal = new MtgDeckSqlCeWriter();
-                    retVal.ConnectionString = string.Format("“DataSource=\"{0}\";", output);
+                    var retVal = new MtgDeckSqlCeWriter { ConnectionString = string.Format("DataSource=\"{0}\";", output) };
                     return retVal; 
                 })
             }
@@ -46,7 +33,7 @@ namespace DeckAnalyzer
         {
             if (string.IsNullOrWhiteSpace(location))
             {
-                throw new ArgumentException("Location cannot be blank.");
+                throw new ArgumentException("Location cannot be blank.", "location");
             }
 
             return outputObjects[(int)outputType][(int)gameType](location);
