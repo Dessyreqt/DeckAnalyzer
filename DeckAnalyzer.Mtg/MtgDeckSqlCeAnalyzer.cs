@@ -10,10 +10,9 @@ using DeckAnalyzer.Data;
 
 namespace DeckAnalyzer.Mtg
 {
-    public class MtgDeckSqlCeAnalyzer : IDeckAnalyzer
+    public class MtgDeckSqlCeAnalyzer : BaseSqlCeDeckDatabase, IDeckAnalyzer
     {
         public string SeedDeck { get; set; }
-        public string ConnectionString { get; set; }
 
         public void AnalyzeDecks(int order)
         {
@@ -36,18 +35,5 @@ namespace DeckAnalyzer.Mtg
             }
         }
 
-        private string GetFileNameFromConnectionString()
-        {
-            var regex = new Regex(@"DataSource=""(?<filename>[^/*?\""<>|]+)""");
-
-            Match match = regex.Match(ConnectionString);
-
-            if (match.Success)
-            {
-                return match.Groups["filename"].Value;
-            }
-
-            throw new InvalidOperationException("Could not get database filename from connection string. Please verify the connection string and retry.");
-        }
     }
 }

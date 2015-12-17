@@ -12,10 +12,8 @@ using DeckAnalyzer.Data;
 
 namespace DeckAnalyzer.Mtg
 {
-    public class MtgDeckSqlCeWriter : IDeckWriter
+    public class MtgDeckSqlCeWriter : BaseSqlCeDeckDatabase, IDeckWriter
     {
-        public string ConnectionString { get; set; }
-
         public void WriteDeck(IDeck deck)
         {
             if (ConnectionString == null)
@@ -59,13 +57,6 @@ namespace DeckAnalyzer.Mtg
             }                                                        
         }
 
-        private void WriteNewDeckIndex(SqlCeConnection conn, int deckIndex)
-        {
-            var cmdText = string.Format("insert into DeckIndex (DeckNum) values ({0})", deckIndex);
-            var cmd = new SqlCeCommand(cmdText, conn);
-            cmd.ExecuteNonQuery();
-        }
-
         private void InsertDecklist(SqlCeConnection conn, int deckIndex, MtgDeck deck)
         {
             CreateDecklistTable(conn, deckIndex);
@@ -90,41 +81,6 @@ namespace DeckAnalyzer.Mtg
             var cmdText = string.Format("create table deck{0} (Card nvarchar(255))", deckIndex.ToString("000"));
             var cmd = new SqlCeCommand(cmdText, conn);
             cmd.ExecuteNonQuery();
-        }
-
-        private int GetDeckIndex(SqlCeConnection conn)
-        {
-            const string cmdText = "select DeckNum from DeckIndex order by DeckNum desc";
-            var cmd = new SqlCeCommand(cmdText, conn);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
-            {
-                return int.Parse(reader["DeckNum"].ToString());
-            }
-
-            throw new DataException("Could not read DeckNum from database.");
-        }
-
-        private void InitializeDatabase(SqlCeConnection conn)
-        {
-            const string cmdText = "create table DeckIndex (DeckNum int)";
-            var cmd = new SqlCeCommand(cmdText, conn);
-            cmd.ExecuteNonQuery();
-            WriteNewDeckIndex(conn, 0);
-        }
-
-        private string GetFileNameFromConnectionString()
-        {
-            var regex = new Regex(@"DataSource=""(?<filename>[^/*?\""<>|]+)""");
-
-            Match match = regex.Match(ConnectionString);
-
-            if (match.Success)
-            {
-                return match.Groups["filename"].Value;
-            }
-
-            throw new InvalidOperationException("Could not get database filename from connection string. Please verify the connection string and retry.");
         }
     }
 }
