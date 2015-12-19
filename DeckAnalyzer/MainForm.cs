@@ -77,6 +77,11 @@ namespace DeckAnalyzer
                 var outputType = GetOutputType();
                 var gameType = GetGameType();
 
+                if (!Directory.Exists(outputFolderText.Text))
+                {
+                    Directory.CreateDirectory(outputFolderText.Text);
+                }
+
                 IDeckWriter writer = DeckWriterFactory.GetDeckWriter(outputType, gameType, GetOutputLocation(outputType));
                 scraper.GetDecks(eventAddressText.Text, writer);
             }

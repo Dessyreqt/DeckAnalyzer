@@ -28,6 +28,11 @@ namespace DeckAnalyzer.Mtg
 
             DeleteTempFile();
 
+            if (!Directory.Exists(InputFolder))
+            {
+                Directory.CreateDirectory(InputFolder);
+            }
+
             if (!Directory.Exists(OutputFolder))
             {
                 Directory.CreateDirectory(OutputFolder);
