@@ -67,7 +67,7 @@ namespace DeckAnalyzer
             SetDeckWriterOutputType();
             Settings.Default.Save();
 
-            outputText.Text += String.Format("Grabbing decks from {0}{1}", eventAddressText.Text, Environment.NewLine);
+            outputText.Text += string.Format("Grabbing decks from {0}{1}", eventAddressText.Text, Environment.NewLine);
             Application.DoEvents();
 
             try

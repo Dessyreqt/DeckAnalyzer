@@ -20,14 +20,14 @@ namespace DeckAnalyzer.Mtg
 
             var urlPattern = new Regex(@"id=\d+&iddeck=\d+");
             var matches = urlPattern.Matches(response);
-            var deckUrls = (from Match match in matches select string.Format("http://tcdecks.net/download.php?ext=txt&{0}", match.Value)).ToList();
+            var deckUrls = (from Match match in matches select string.Format("http://tcdecks.net/download.php?ext=dec&{0}", match.Value)).ToList();
 
             foreach (var deckUrl in deckUrls.Distinct())
             {
                 var deck = GetDeck(deckUrl);
                 deck = CleanDeck(deck);
 
-                var parser = new MtgoDeckParser();
+                var parser = new MwsDeckParser();
                 var parsedDeck = parser.ParseDeck(deck);
                 if (parsedDeck.IsValid())
                 {

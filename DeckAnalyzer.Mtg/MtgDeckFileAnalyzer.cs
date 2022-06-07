@@ -59,30 +59,36 @@ namespace DeckAnalyzer.Mtg
                 args.AppendFormat(" {0}", filename.Substring(filename.LastIndexOf('\\') + 1));
             }
 
-
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "mtg-builder",
                     Arguments = args.ToString(),
-                    //UseShellExecute = false,
-                    //RedirectStandardOutput = true,
-                    //CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = false,
+                    RedirectStandardError = true,
                     WorkingDirectory = InputFolder,
                 }
             };
 
             proc.Start();
-
-            //while (!proc.StandardOutput.EndOfStream)
-            //{
-            //    string line = proc.StandardOutput.ReadLine();
-            //    outputDeckText.Text += line;
-            //    Application.DoEvents();
-            //}
+            var output = proc.StandardError.ReadToEnd();
+            using (var writer = new StreamWriter($"{OutputFolder}\\build.txt", false))
+            {
+                writer.Write(output);
+            }
+            proc.WaitForExit();
 
             DeleteTempFile();
+        }
+
+        private void CaptureOutput(object sender, DataReceivedEventArgs e)
+        {
+            using (var writer = new StreamWriter($"{OutputFolder}\\build.txt", true))
+            {
+                writer.Write(e.Data);
+            }
         }
 
         private void DeleteTempFile()
